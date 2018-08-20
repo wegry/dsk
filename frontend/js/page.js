@@ -8,6 +8,7 @@
 /* globals Client: false */
 /* globals Prism: false */
 
+
 class Page {
   constructor(main, props) {
     this.main = main;
@@ -78,11 +79,48 @@ class Page {
     }
 
     this.main.innerHTML = '';
+    console.log(this.node.authors);
+
+    // Title Container
+    let titleContainer = document.createElement('section');
+    titleContainer.classList.add('title-container');
+    this.main.appendChild(titleContainer);
+
+    // Description Container
+    let descriptionContainer = document.createElement('section');
+    descriptionContainer.classList.add('description-container');
+    this.main.appendChild(descriptionContainer);
+
+    // Tab Container
+    let tabContainer = document.createElement('section');
+    tabContainer.classList.add('tab-container');
+    this.main.appendChild(tabContainer);
+
+    // Always display the tab
+    let switches = document.createElement('section');
+    switches.classList.add('doc-switches');
+    //docs.appendChild(switches);
+    tabContainer.appendChild(switches);
+
+    if (this.node.docs.length === 0) {
+      let contentsTabOption = document.createElement('div');
+      contentsTabOption.innerText = "Contents";
+      contentsTabOption.classList.add('doc-switch');
+      contentsTabOption.classList.add('active');
+      switches.appendChild(contentsTabOption);
+    }
+
+    // Metadata Container
+    let metaDataContainer = document.createElement('section');
+    metaDataContainer.classList.add('meta-data-container');
+    //metaDataContainer.classList.add('remove-styling');
+    this.main.appendChild(metaDataContainer);
 
     // Crumbs
     let crumbs = document.createElement('ul');
     crumbs.classList.add('crumbs');
-    this.main.appendChild(crumbs);
+    crumbs.classList.add('t-gamma-sans');
+    titleContainer.appendChild(crumbs);
 
     this.node.crumbs.forEach((crumb) => {
       let li = document.createElement('li');
@@ -98,22 +136,24 @@ class Page {
     // Title
     let title = document.createElement('h1');
     title.classList.add('title');
+    title.classList.add('t-alpha-sans-bold');
     title.innerText = this.node.title;
-    this.main.appendChild(title);
+    titleContainer.appendChild(title);
 
     // Description
     if (this.node.description) {
       let description = document.createElement('section');
       description.classList.add('description');
+      description.classList.add('t-beta-sans');
       description.innerHTML = this.node.description;
-
-      this.main.appendChild(description);
+      descriptionContainer.appendChild(description);
     }
 
     // Tags
     if (this.node.tags.length) {
       let tags = document.createElement('ul');
       tags.classList.add('tags');
+      tags.classList.add('t-delta-sans-bold');
 
       this.node.tags.forEach((tag) => {
         let li = document.createElement('li');
@@ -126,7 +166,7 @@ class Page {
         li.appendChild(a);
         tags.appendChild(li);
       });
-      this.main.appendChild(tags);
+      descriptionContainer.appendChild(tags);
     }
 
     // Info Area
@@ -142,9 +182,10 @@ class Page {
     // Doc Switcher
     if (this.node.docs.length > 1) {
       // Zwitch between documents
-      let switches = document.createElement('section');
+      /*let switches = document.createElement('section');
       switches.classList.add('doc-switches');
-      docs.appendChild(switches);
+      //docs.appendChild(switches);
+      tabContainer.appendChild(switches);*/
 
       this.node.docs.sort((a, b) => {
         if (a.title.toLowerCase() === 'readme') {
@@ -159,6 +200,7 @@ class Page {
       this.node.docs.forEach((doc, index) => {
         let a = document.createElement('a');
         a.classList.add('doc-switch');
+        a.classList.add('t-gamma-sans');
 
         if (index === 0) {
           a.classList.add('active');
@@ -224,39 +266,81 @@ class Page {
       });
     }
 
+
+    // Meta data
+    if (this.node.authors.length !== 0) {
+      let h1 = document.createElement('h1');
+      h1.classList.add('meta-data-container__title');
+      h1.classList.add('t-delta-sans-bold');
+      h1.innerText = 'authors';
+      metaDataContainer.appendChild(h1);
+      this.node.authors.forEach(author => {
+        let p = document.createElement('p');
+        p.classList.add('meta-data-container__info');
+        p.classList.add('t-gamma-sans');
+        p.innerText = author.name;
+        metaDataContainer.appendChild(p);
+      })
+    }
+
+    if (this.node.version) {
+      let h1 = document.createElement('h1');
+      h1.classList.add('meta-data-container__title');
+      h1.classList.add('t-delta-sans-bold');
+      h1.innerText = 'version';
+      metaDataContainer.appendChild(h1);
+      let p = document.createElement('p');
+      p.classList.add('meta-data-container__info');
+      p.classList.add('t-gamma-sans');
+      p.innerText = this.node.version;
+      metaDataContainer.appendChild(p);
+    }
+
     // Downloads
     if (this.node.downloads.length) {
       let downloads = document.createElement('aside');
       downloads.classList.add('downloads');
-      info.appendChild(downloads);
+      this.main.appendChild(downloads);
 
       let h1 = document.createElement('h1');
-      h1.classList.add('downloads__title');
-      h1.innerText = 'Downloads';
+      h1.classList.add('downloads__headline');
+      h1.classList.add('t-delta-sans-bold');
+      h1.innerText = 'assets';
       downloads.appendChild(h1);
 
       let downloadsList = document.createElement('ul');
       downloads.appendChild(downloadsList);
 
       this.node.downloads.forEach((c) => {
+        console.log(c);
         let li = document.createElement('li');
-        li.classList.add('download');
+        li.classList.add('downloads__item');
+        li.classList.add('t-gamma-sans-bold');
         downloadsList.appendChild(li);
 
         let a = document.createElement('a');
         a.href = `/api/v1/tree/${c.url}`;
         a.innerText = c.name;
-        a.setAttribute('download', '');
+        a.classList.add('downloads__item-title');
         li.appendChild(a);
+
+        let p = document.createElement('p');
+        p.classList.add('downloads__item-info');
+        p.classList.add('t-gamma-sans');
+        p.innerText = (c.size/102400).toFixed(2)+' MB ─ ';
+        li.appendChild(p);
       });
     }
 
     // Show Source
     let source = document.createElement('section');
+    source.classList.add('doc-switch');
     source.classList.add('source');
-    this.main.appendChild(source);
+    switches.appendChild(source);
 
     let a = document.createElement('a');
+    a.classList.add('t-gamma-mono');
+    a.classList.add('source__item');
     a.innerText = 'Source';
     a.href = '#source-code';
     source.appendChild(a);
