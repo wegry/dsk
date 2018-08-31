@@ -51,7 +51,7 @@ html {
 
 body {
   display: grid;
-  grid-template-columns: minmax(min-content, 240px)
+  grid-template-columns: minmax(min-content, calc(30px * var(--spacing-base-unit)))
   minmax(min-content, auto);
   grid-template-areas:
     "sidebar main";
@@ -228,13 +228,14 @@ body {
 
 .main {
   grid-area: main;
-  padding: 48px;
+  padding-bottom: calc(6px * var(--spacing-base-unit));
+  padding-left: calc(6px * var(--spacing-base-unit));
   display: grid;
   grid-template-columns:
-    minmax(min-content, 640px)
-    minmax(min-content, 240px);
-  grid-column-gap: 56px;
-  grid-row-gap: 56px;
+    minmax(min-content, calc(80px * var(--spacing-base-unit)))
+    minmax(min-content, calc(30px * var(--spacing-base-unit)));
+  grid-column-gap: calc(7px * var(--spacing-base-unit));
+  grid-row-gap: calc(7px * var(--spacing-base-unit));
   grid-auto-rows: minmax(min-content, max-content);
   overflow-y: auto;
 }
@@ -245,8 +246,8 @@ body {
   grid-column: 1/2;
   display: flex;
   flex-direction: column;
-  padding-top: 56px;
-  margin-bottom: -16px;
+  padding-top: calc(7px * var(--spacing-base-unit));
+  margin-bottom: calc(-2px * var(--spacing-base-unit));
 }
 
 .description-container {
@@ -295,7 +296,6 @@ body {
 
 .main .description {
   color: var(--color-gray-200);
-  margin-bottom: calc(2px * var(--spacing-base-unit));
   max-width: 650px;
 }
 
@@ -342,6 +342,7 @@ body {
 .tags {
   user-select: none;
   list-style: none;
+  padding-top: calc(2px * var(--spacing-base-unit));
 }
 
 .tags__tag {
