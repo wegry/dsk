@@ -226,10 +226,12 @@ body {
 
 /* --- Main --- */
 
-.main {
+.main-wrapper {
   grid-area: main;
-  padding-bottom: calc(6px * var(--spacing-base-unit));
-  padding-left: calc(6px * var(--spacing-base-unit));
+  overflow-y: auto;
+}
+
+.main {
   display: grid;
   grid-template-columns:
     minmax(min-content, calc(80px * var(--spacing-base-unit)))
@@ -238,6 +240,9 @@ body {
   grid-row-gap: calc(7px * var(--spacing-base-unit));
   grid-auto-rows: minmax(min-content, max-content);
   overflow-y: auto;
+  max-width: 1032px;
+  margin: 0 auto;
+  padding: calc(6px * var(--spacing-base-unit));
 }
 
 
@@ -246,7 +251,6 @@ body {
   grid-column: 1/2;
   display: flex;
   flex-direction: column;
-  padding-top: calc(7px * var(--spacing-base-unit));
   margin-bottom: calc(-2px * var(--spacing-base-unit));
 }
 
