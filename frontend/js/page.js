@@ -79,7 +79,6 @@ class Page {
     }
 
     this.main.innerHTML = '';
-    console.log(this.node.authors);
 
     // Title Container
     let titleContainer = document.createElement('section');
@@ -101,14 +100,6 @@ class Page {
     switches.classList.add('doc-switches');
     //docs.appendChild(switches);
     tabContainer.appendChild(switches);
-
-    if (this.node.docs.length === 0) {
-      let contentsTabOption = document.createElement('div');
-      contentsTabOption.innerText = "Contents";
-      contentsTabOption.classList.add('doc-switch');
-      contentsTabOption.classList.add('active');
-      switches.appendChild(contentsTabOption);
-    }
 
     // Metadata Container
     let metaDataContainer = document.createElement('section');
@@ -181,11 +172,6 @@ class Page {
 
     // Doc Switcher
     if (this.node.docs.length > 1) {
-      // Zwitch between documents
-      /*let switches = document.createElement('section');
-      switches.classList.add('doc-switches');
-      //docs.appendChild(switches);
-      tabContainer.appendChild(switches);*/
 
       this.node.docs.sort((a, b) => {
         if (a.title.toLowerCase() === 'readme') {
@@ -200,12 +186,11 @@ class Page {
       this.node.docs.forEach((doc, index) => {
         let a = document.createElement('a');
         a.classList.add('doc-switch');
-        a.classList.add('t-gamma-sans');
-
         if (index === 0) {
           a.classList.add('active');
         }
         a.href = `#doc-${index}`;
+        a.classList.add('t-gamma-sans');
         a.innerText = doc.title;
 
         a.addEventListener('click', (ev) => {
@@ -236,6 +221,25 @@ class Page {
         docs.appendChild(text);
       });
     } else {
+
+      // With no docs, Contents tab option is showed
+      let a = document.createElement('a');
+      a.innerText = "Contents";
+      a.classList.add('doc-switch');
+      a.classList.add('active');
+      a.classList.add('t-gamma-sans');
+      a.href = "#table";
+      switches.appendChild(a);
+      a.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        this.main.querySelector('.doc-switch.active').classList.remove('active');
+        a.classList.add('active');
+        this.main.querySelector('.children-table').classList.toggle('hide');
+        this.main.querySelectorAll('.doc').forEach((el) => {
+          el.classList.add('hide');
+        });
+      });
+
       let dir = document.createElement('table');
       dir.classList.add('children-table');
       info.appendChild(dir);
@@ -265,7 +269,6 @@ class Page {
         });
       });
     }
-
 
     // Meta data
     if (this.node.authors.length !== 0) {
@@ -312,7 +315,6 @@ class Page {
       downloads.appendChild(downloadsList);
 
       this.node.downloads.forEach((c) => {
-        console.log(c);
         let li = document.createElement('li');
         li.classList.add('downloads__item');
         li.classList.add('t-gamma-sans-bold');
@@ -333,20 +335,20 @@ class Page {
     }
 
     // Show Source
-    let source = document.createElement('section');
-    source.classList.add('doc-switch');
-    source.classList.add('source');
-    switches.appendChild(source);
-
     let a = document.createElement('a');
     a.classList.add('t-gamma-mono');
     a.classList.add('source__item');
+    a.classList.add('doc-switch');
+    a.classList.add('source');
     a.innerText = 'Source';
     a.href = '#source-code';
-    source.appendChild(a);
+    switches.appendChild(a);
 
-    let wrap = document.createElement('div');
+    let source = document.createElement('div');
+    let wrap = document.createElement('article');
     wrap.classList.add('hide');
+    wrap.classList.add('doc');
+    wrap.id = "source-code";// Put the right id
     source.appendChild(wrap);
 
     let pre = document.createElement('pre');
@@ -369,9 +371,22 @@ class Page {
     more.target = 'new';
     more.innerText = 'Build your own frontend';
     wrap.appendChild(more);
+    docs.appendChild(wrap);
 
     a.addEventListener('click', (ev) => {
       ev.preventDefault();
+
+      this.main.querySelector('.doc-switch.active').classList.remove('active');
+      a.classList.add('active');
+
+      if (this.node.docs.length) {
+        this.main.querySelectorAll('.doc').forEach((el) => {
+          el.classList.add('hide', el.id !== "source-code");
+        });
+      } else {
+        this.main.querySelector('.children-table').classList.add('hide');
+      }
+
       wrap.classList.toggle('hide');
       wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });

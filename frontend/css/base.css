@@ -80,10 +80,8 @@ body {
 .sidebar {
   grid-area: sidebar;
   min-width: 220px;
-
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
 }
 
 .sidebar__header {
@@ -469,8 +467,6 @@ body {
 
 /* --- Source --- */
 .source {
-  grid-row: 2/3;
-  grid-column: 2/3;
   margin-right: 0;
   margin-left: auto;
 }
