@@ -22,20 +22,20 @@
 
 .t-beta-sans {
   font-family: var(--font-family-sans);
-  font-size: 32px;
+  font-size: 28px;
   line-height: 44px;
 }
 
 .t-gamma-sans {
    font-family: var(--font-family-sans);
    font-size: 16px;
-   line-height: 32px;
+   line-height: 28px;
 }
 
 .t-gamma-sans-bold {
   font-family: var(--font-family-sans);
   font-size: 16px;
-  line-height: 32px;
+  line-height: 28px;
   font-weight: bold;
 }
 
@@ -48,8 +48,9 @@
 .t-delta-sans-bold {
   font-family: var(--font-family-sans);
   font-weight: bold;
-  font-size: 12px;
+  font-size: 11px;
   line-height: 20px;
+  letter-spacing: 0.06em;
 }
 
 /* Mono */

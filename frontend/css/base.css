@@ -359,7 +359,11 @@ body {
   color: var(--color-white);
   text-decoration: none;
   text-transform: uppercase;
-  letter-spacing: .1em;
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+
   padding: .8em .8em .6em .8em;
   border-radius: 3px;
 }
@@ -502,6 +506,9 @@ body {
 .children-table td {
   padding: 2.5rem 3rem 2rem 0;
   vertical-align: top;
+  font-family: var(--font-family-sans);
+  font-size: 16px;
+  line-height: 28px;
 }
 
 .children-table td a {
@@ -524,7 +531,7 @@ body {
 .doc h1 {
   color: var(--color-gray-200);
   margin-bottom: calc(2px * var(--spacing-base-unit));
-  margin-top: 0;
+  margin-top: calc(4px * var(--spacing-base-unit));
   font-family: var(--font-family-sans);
   font-size: 16px;
   line-height: 32px;
@@ -551,7 +558,7 @@ body {
   margin-bottom: 14px;
   font-family: var(--font-family-sans);
   font-size: 16px;
-  line-height: 32px;
+  line-height: 28px;
 }
 
 .doc p:last-child {
