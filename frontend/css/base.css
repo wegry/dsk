@@ -51,30 +51,16 @@ html {
 
 body {
   display: grid;
-  /*grid-template-columns: 1fr 4fr 1fr;*/
   grid-template-columns: minmax(min-content, 240px)
-  minmax(48px, auto)
-  minmax(min-content, 936px)
-  minmax(48px, auto);
-
+  minmax(min-content, auto);
   grid-template-areas:
-    "sidebar separator1 main separator2";
+    "sidebar main";
   height: 100vh;
   font-family: var(--font-family-sans);
   font-size: 16px;
   line-height: 1em;
   color: var(--color-black);
 }
-
-.separator1 {
-  grid-area: separator1;
-  background: var(--color-white);
-}
-.separator2 {
-  grid-area: separator2;
-  background: var(--color-white);
-}
-
 
 .hide {
   display: none;
@@ -244,7 +230,7 @@ body {
 
 .main {
   grid-area: main;
-  /*padding: 8rem;*/
+  padding: 48px;
   display: grid;
   grid-template-columns:
     minmax(min-content, 640px)
