@@ -82,6 +82,7 @@ body {
   min-width: 220px;
   display: flex;
   flex-direction: column;
+  height: 100vh;
 }
 
 .sidebar__header {
