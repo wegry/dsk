@@ -361,9 +361,9 @@ body {
   text-decoration: none;
   text-transform: uppercase;
   font-weight: bold;
-  font-size: 11px;
+  font-size: 10px;
   line-height: 20px;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
 
   padding: .8em .8em .6em .8em;
   border-radius: 3px;
