@@ -299,6 +299,20 @@ class Page {
       metaDataContainer.appendChild(p);
     }
 
+    if (this.node.modified) {
+      let h1 = document.createElement('h1');
+      h1.classList.add('meta-data-container__title');
+      h1.classList.add('t-delta-sans-bold');
+      h1.innerText = 'last changed';
+      metaDataContainer.appendChild(h1);
+      let p = document.createElement('p');
+      p.classList.add('meta-data-container__info');
+      p.classList.add('t-gamma-sans');
+      let modified = new Date(this.node.modified * 1000).toLocaleDateString();
+      p.innerText = modified;
+      metaDataContainer.appendChild(p);
+    }
+
     // Downloads
     if (this.node.downloads.length) {
       let downloads = document.createElement('aside');
