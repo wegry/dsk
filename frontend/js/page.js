@@ -275,7 +275,11 @@ class Page {
       let h1 = document.createElement('h1');
       h1.classList.add('meta-data-container__title');
       h1.classList.add('t-delta-sans-bold');
-      h1.innerText = 'authors';
+      h1.innerText = 'author';
+
+      if (this.node.authors.length > 1) {
+        h1.innerText += 's';
+      }
       metaDataContainer.appendChild(h1);
       this.node.authors.forEach(author => {
         let p = document.createElement('p');
