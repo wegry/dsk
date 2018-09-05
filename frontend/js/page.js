@@ -402,7 +402,6 @@ class Page {
       }
 
       wrap.classList.toggle('hide');
-      wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   }
 }
