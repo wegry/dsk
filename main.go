@@ -9,12 +9,15 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"os/signal"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/fatih/color"
 	isatty "github.com/mattn/go-isatty"
@@ -38,6 +41,8 @@ var (
 
 	// Global instance of the search index.
 	search *Search
+
+	pullModifiedTime func(*Node) (time.Time, error)
 )
 
 func main() {
@@ -76,6 +81,46 @@ func main() {
 	noColor := flag.Bool("no-color", false, "disables color output")
 	flang := flag.String("lang", "en", "language; separate multiple languages by commas")
 	flag.Parse()
+	gitDates := flag.Bool("--git", false, "use git for file modified dates")
+
+	if *gitDates {
+		// Singleton assignment
+		pullModifiedTime = func(n *Node) (time.Time, error) {
+			args := []string{
+				"log",
+				"--date=iso",
+				"--format=%cd",
+				"1",
+				n.path,
+			}
+			out, err := exec.Command("git", args...).CombinedOutput()
+
+			if err != nil {
+				log.Fatalf("Git log file lookup failed %s", err)
+			}
+
+			return time.Parse(time.RFC3339, string(out))
+		}
+	} else {
+		pullModifiedTime = func(n *Node) (time.Time, error) {
+			var modified time.Time
+
+			files, err := ioutil.ReadDir(n.path)
+			if err != nil {
+				return modified, err
+			}
+
+			for _, f := range files {
+				if f.IsDir() {
+					continue
+				}
+				if f.ModTime().After(modified) {
+					modified = f.ModTime()
+				}
+			}
+			return modified, nil
+		}
+	}
 
 	// Used for configuring search.
 	langs := strings.Split(*flang, ",")

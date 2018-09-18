@@ -264,22 +264,7 @@ func (n *Node) AuthorsRaw() []string {
 // contain any files, the func will still succeed but return a zero
 // time.
 func (n *Node) Modified() (time.Time, error) {
-	var modified time.Time
-
-	files, err := ioutil.ReadDir(n.path)
-	if err != nil {
-		return modified, err
-	}
-
-	for _, f := range files {
-		if f.IsDir() {
-			continue
-		}
-		if f.ModTime().After(modified) {
-			modified = f.ModTime()
-		}
-	}
-	return modified, nil
+	return pullModifiedTime(n)
 }
 
 func (n *Node) Version() string {
