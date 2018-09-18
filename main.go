@@ -88,9 +88,9 @@ func main() {
 		pullModifiedTime = func(n *Node) (time.Time, error) {
 			args := []string{
 				"log",
-				"--date=iso",
+				"--date=iso-strict",
 				"--format=%cd",
-				"1",
+				"-1",
 				n.path,
 			}
 			out, err := exec.Command("git", args...).CombinedOutput()
